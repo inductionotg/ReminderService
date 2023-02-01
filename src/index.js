@@ -33,7 +33,7 @@ const setupAndStartServer = ()=>{
                     notificationTime:'2023-01-01T18:30:00.000Z'})
        await create
        */
-      //setupJobs()
+      setupJobs()
     })
     
 }

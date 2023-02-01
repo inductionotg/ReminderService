@@ -1,4 +1,5 @@
 const sender = require('../config/email-config')
+const  htmlToSend = require('../utils/template')
 const  TicketRepository  = require('../repository/ticket-repository')
 /*
 const sendBasicEmail = async (mailFrom, mailTo, mailSubject, mailBody)=>{
@@ -28,9 +29,18 @@ class TicketService {
                 from:mailFrom,
                 to:mailTo,
                 subject:mailSubject,
-                text:mailBody
+                text:mailBody,
+                html:htmlToSend,
+                /*
+                attachments:[
+                    {
+                        filename:'SMVT.PDF',
+                        path:'./SMVT.pdf'
+                    }
+                ]
+                */
             })
-            console.log(response)
+            
         } catch (error) {
             console.log(error)
         }
@@ -47,7 +57,24 @@ class TicketService {
 
     async fetchPendingEmails(){
         try {
-            const response = await this.ticketRepository.getAll()
+            const response = await this.ticketRepository.get({status:'PENDING'})
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async destroy(ticketId){
+        try {
+            const response = await this.ticketRepository.destroy(ticketId)
+            return response
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async updateTicket(ticketId,data){
+        try {
+            const response = await this.ticketRepository.update(ticketId,data)
             return response
         } catch (error) {
             console.log(error)
